@@ -1,4 +1,5 @@
 ﻿using System;
+using Chuh007Lib.Dependencies;
 using UnityEngine;
 using Work.CHUH._01Scripts.Combat;
 using Work.CHUH._01Scripts.Entities;
@@ -10,7 +11,7 @@ namespace Work.CHUH._01Scripts.Enemies
         private EntityMover _entityMover;
         private EntityAttackCompo _entityAttackCompo;
 
-        private IDamageable _target;
+        [Inject] public CastleHealth _target;
         
         protected override void Awake()
         {

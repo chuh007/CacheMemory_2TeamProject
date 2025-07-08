@@ -1,9 +1,11 @@
 using System.Collections;
+using Chuh007Lib.Dependencies;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CastleHealth : MonoBehaviour
+[Provide]
+public class CastleHealth : MonoBehaviour, IDependencyProvider
 {
     // 추후에 힐이나 맞은 피격을 넣게 될 수 있으니 주석으로 임시 처리 했습니다.
         [SerializeField] private float maxHp = 100;
