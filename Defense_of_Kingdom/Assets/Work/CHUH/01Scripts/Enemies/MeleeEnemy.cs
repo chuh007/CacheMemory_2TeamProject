@@ -8,18 +8,7 @@ namespace Work.CHUH._01Scripts.Enemies
 {
     public class MeleeEnemy : Enemy
     {
-        private EntityMover _entityMover;
-        private EntityAttackCompo _entityAttackCompo;
-
-        [Inject] public CastleHealth _target;
         
-        protected override void Awake()
-        {
-            base.Awake();
-            _entityMover = GetCompo<EntityMover>();
-            _entityAttackCompo = GetCompo<EntityAttackCompo>();
-        }
-
         private void Update()
         {
             
