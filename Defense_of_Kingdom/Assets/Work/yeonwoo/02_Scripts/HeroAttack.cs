@@ -19,8 +19,8 @@ public class HeroAttack : MonoBehaviour
 
     private void Fire()
     {
-        
-        
+
+        if (!_canFire) return;
         
         GameObject bullet = Instantiate(_bulletPrefab, _firePoint.position, _firePoint.rotation);
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
