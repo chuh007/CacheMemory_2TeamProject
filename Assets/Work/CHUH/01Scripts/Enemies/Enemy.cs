@@ -1,28 +1,24 @@
-﻿using System;
-using Chuh007Lib.Dependencies;
+﻿using Chuh007Lib.Dependencies;
 using UnityEngine;
 using Work.CHUH._01Scripts.Combat;
 using Work.CHUH._01Scripts.Entities;
 
 namespace Work.CHUH._01Scripts.Enemies
 {
-    public class MeleeEnemy : Enemy
+    public abstract class Enemy : Entity
     {
-        private EntityMover _entityMover;
-        private EntityAttackCompo _entityAttackCompo;
+        [Inject] protected CastleHealth _target;
+        
+        protected EntityMover _entityMover;
+        protected EntityAttackCompo _entityAttackCompo;
 
-        [Inject] public CastleHealth _target;
+        protected float _attackRange;
         
         protected override void Awake()
         {
             base.Awake();
             _entityMover = GetCompo<EntityMover>();
             _entityAttackCompo = GetCompo<EntityAttackCompo>();
-        }
-
-        private void Update()
-        {
-            
         }
     }
 }
