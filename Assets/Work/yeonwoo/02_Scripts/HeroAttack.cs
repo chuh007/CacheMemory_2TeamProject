@@ -15,7 +15,12 @@ public class HeroAttack : MonoBehaviour
     
     private bool _canFire = true;
 
-   
+
+    private void Start()
+    {
+        StartCoroutine((AutoFire()));
+    }
+
 
     private void Fire()
     {
@@ -38,12 +43,18 @@ public class HeroAttack : MonoBehaviour
         yield return new WaitForSeconds(_fireRate);
         _canFire = true;
     }
-
-    private void Update()
+    
+    private IEnumerator AutoFire()
     {
-        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+        while (true)
         {
-            Fire();
+            if (_canFire)
+            {
+                Fire();
+            }
+            yield return new WaitForSeconds(_fireRate);
         }
     }
+
+  
 }
