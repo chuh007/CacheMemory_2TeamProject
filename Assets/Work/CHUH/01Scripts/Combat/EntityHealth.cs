@@ -6,19 +6,23 @@ namespace Work.CHUH._01Scripts.Combat
 {
     public class EntityHealth : MonoBehaviour, IEntityComponent, IDamageable, IAfterInitialize
     {
-        private Entity _entity;
 
         [SerializeField] private StatSO hpStat;
         [SerializeField] private float maxHealth;
         [SerializeField] private float currentHealth;
         
+        private Entity _entity;
+        private EntityStat _statCompo;
+        
         public void Initialize(Entity entity)
         {
             _entity = entity;
+            _statCompo = entity.GetCompo<EntityStat>();
         }
         
         public void AfterInitialize()
         {
+            maxHealth = currentHealth = _statCompo.GetStat(hpStat).Value;
         }
 
         private void OnDestroy()
@@ -41,7 +45,7 @@ namespace Work.CHUH._01Scripts.Combat
 
         public void ApplyDamage(float damage)
         {
-            
+            if(_entity.IsDead) return;
             currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
             if (currentHealth <= 0)
             {

@@ -8,10 +8,11 @@ namespace Work.CHUH._01Scripts.Enemies
 {
     public class MeleeEnemy : Enemy
     {
+
         
-        private void Update()
+        protected override void Awake()
         {
-            
+            base.Awake();
         }
     }
 }
