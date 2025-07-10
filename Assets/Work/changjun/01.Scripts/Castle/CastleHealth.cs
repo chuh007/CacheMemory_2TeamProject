@@ -5,20 +5,20 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [Provide]
-public class CastleHealth : MonoBehaviour, IDependencyProvider
+public class CastleHealth : MonoBehaviour, IDependencyProvider,IDamageble
 {
     // 추후에 힐이나 맞은 피격을 넣게 될 수 있으니 주석으로 임시 처리 했습니다.
-        [SerializeField] private float maxHp = 100;
         [SerializeField] float currentHp;
+        private float maxHp = 100;
         [Header("HP UI")]
         [SerializeField]private Image hpGauge;
         [SerializeField]private TextMeshProUGUI hpText;
-        private SpriteRenderer spriteRenderer;
+        //private SpriteRenderer spriteRenderer;
         // private Color originalColor;
     
         void Awake()
         {
-            spriteRenderer = GetComponent<SpriteRenderer>();
+            //spriteRenderer = GetComponent<SpriteRenderer>();
             currentHp = maxHp;
             UpdateHpUI();
             //originalColor = spriteRenderer.color;
