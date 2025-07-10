@@ -8,27 +8,36 @@ public class Arrow : MonoBehaviour
     [SerializeField] private float _height; //궤적의 높이
     private float _t = 0f;//궤적의 진행도
     private Vector2 _arrow;//화살의 시작점
-    private Vector2 _enemy;//가장 가까운 적의 위치를 저장함
+    private Vector2 _enemy;//처음 찾은 적의 위치만 저장
     private float _timeElapsed = 0f;//화살 생성후 경과 시간
-    private float _duration = 1.7f;//화살이 목표까지 날아가는데 걸리는 사간
+    [SerializeField] private float _duration = 1.5f;//화살이 목표까지 날아가는데 걸리는 시간
+
     private void OnEnable()
     {
         _arrow = transform.position;
-        _enemy = FindEnemy(Enemy).position;
-        Parabola(_arrow,_enemy,_height,_t);
+        var enemyTransform = FindEnemy(Enemy);
+        if (enemyTransform != null)
+            _enemy = enemyTransform.position;
+        else
+            _enemy = _arrow;
     }
-    
+
     private void Update()
     {
-        var enemyTransform = FindEnemy(Enemy);
-        if (enemyTransform == null) return;
+        if ( _timeElapsed > _duration + 0.05f) {Destroy(gameObject);}
         _timeElapsed += Time.deltaTime;
         float t = Mathf.Clamp01(_timeElapsed / _duration);
+
         Vector2 prevPos = transform.position;
-        Vector2 nextPos = Parabola(_arrow, enemyTransform.position, _height, t);
+        Vector2 nextPos = Parabola(_arrow, _enemy, _height, t);
+
         Vector2 direction = nextPos - prevPos;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, angle);
+        if (direction.sqrMagnitude > 0.0001f)
+        {
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, 0, angle);
+        }
+
         transform.position = nextPos;
     }
 
@@ -54,18 +63,15 @@ public class Arrow : MonoBehaviour
     public static Vector2 Parabola(Vector2 start, Vector2 end, float height, float t)
     {
         Func<float, float> f = x => -4 * height * x * x + 4 * height * x;
-
         var mid = Vector2.Lerp(start, end, t);
-
         return new Vector2(mid.x, f(t) + Mathf.Lerp(start.y, end.y, t));
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("collided");
-        if (collision.gameObject.CompareTag("Enemy")) //Enemy는 임시적인 레이어 명이라 추후에 적의 레이어로 변경해야함.
+        if (collision.gameObject.CompareTag("Enemy"))
         {
-            //맞은적에게 데미지를 주는 메서드
             Debug.Log("die");
             Destroy(gameObject);
         }
